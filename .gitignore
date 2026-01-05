@@ -1,0 +1,34 @@
+# Environment
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Docker
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Models (too large for git)
+models/
+!models/.gitkeep
+
+# Custom nodes (install separately)
+custom_nodes/
+!custom_nodes/.gitkeep
+
+# Output files
+output/
+!output/.gitkeep
+
+# Input files
+input/
+!input/.gitkeep

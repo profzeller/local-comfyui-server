@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  comfyui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: comfyui
+    ports:
+      - "8188:8188"  # ComfyUI Web UI
+      - "8189:8189"  # API wrapper
+    volumes:
+      # Mount models directory - download models here
+      - ./models:/app/ComfyUI/models
+      # Mount custom nodes
+      - ./custom_nodes:/app/ComfyUI/custom_nodes
+      # Mount output directory
+      - ./output:/app/ComfyUI/output
+      # Mount input directory (for img2img, etc.)
+      - ./input:/app/ComfyUI/input
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    environment:
+      - CUDA_VISIBLE_DEVICES=0
+      - CLI_ARGS=--listen 0.0.0.0 --port 8188
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8188/system_stats"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
