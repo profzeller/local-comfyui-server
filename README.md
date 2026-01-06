@@ -1,5 +1,7 @@
 # Local ComfyUI Server
 
+> Part of the [P16 GPU Server](https://github.com/profzeller/p16-server-setup) ecosystem
+
 Dedicated image generation server using ComfyUI on a local GPU.
 
 Optimized for 16GB VRAM GPUs to run SDXL and other image generation models.
