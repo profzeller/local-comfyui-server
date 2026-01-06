@@ -1,0 +1,10 @@
+# Ignore generated images
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+
+# Keep directory
+!.gitkeep
+!.gitignore
