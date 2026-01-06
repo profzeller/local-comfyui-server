@@ -6,7 +6,7 @@ FROM pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 
-# Install system dependencies
+# Install system dependencies (including build tools for insightface)
 RUN apt-get update && apt-get install -y \
     git \
     wget \
@@ -17,6 +17,10 @@ RUN apt-get update && apt-get install -y \
     libsm6 \
     libxext6 \
     libxrender-dev \
+    # Build tools required for insightface
+    build-essential \
+    cmake \
+    python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -29,11 +33,15 @@ WORKDIR /app/ComfyUI
 # Install ComfyUI requirements
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install onnxruntime-gpu first (required by insightface)
+RUN pip install --no-cache-dir onnxruntime-gpu
+
+# Install insightface (requires build tools)
+RUN pip install --no-cache-dir insightface
+
 # Install additional useful packages
 RUN pip install --no-cache-dir \
     opencv-python \
-    insightface \
-    onnxruntime-gpu \
     segment-anything \
     groundingdino-py \
     fastapi \
